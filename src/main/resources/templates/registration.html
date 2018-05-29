@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Registration</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		body{
+			background-color: #EDF3F3;
+		}
+		form{position: absolute; left: 420px;}
+		.form-group{
+			width: 70%;
+		}
+	</style>
+</head>
+<body>
+<!-- Include _menu.html -->
+<section class="blog-area section">
+			<form action="#" th:action="@{/register} " enctype="multipart/form-data"
+				  th:object="${user}" method="post" class="form-horizontal"
+				  role="form">
+				<h2>Registration Form</h2>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<span class="input-group-addon">Username</span>
+						<input type="text" th:field="*{userName}"
+							   placeholder="Username" class="form-control" />
+						<label	th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"
+								  class="validation-message"></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<span class="input-group-addon">E-mail</span>
+						<input type="text" th:field="*{email}"
+							   placeholder="Email" class="form-control" />
+						<label	th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+								  class="validation-message"></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<span class="input-group-addon">First Name</span>
+						<input type="text" th:field="*{firstName}"
+							   placeholder="First name" class="form-control" />
+						<label	th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+								  class="validation-message"></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<span class="input-group-addon">Last Name</span>
+						<input type="text" th:field="*{lastName}" placeholder="lastName"
+							   class="form-control" />
+						<label th:if="${#fields.hasErrors('lastName')}"
+							   th:errors="*{lastName}"
+							   class="validation-message"></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<span class="input-group-addon">Department</span>
+						<input type="text" th:field="*{department}" placeholder="Department"
+							   class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<span class="input-group-addon">Password</span>
+						<input type="password" th:field="*{password}"
+							   placeholder="Password" class="form-control" /> <label
+							th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+							class="validation-message"></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">Photo 1</label>
+					<div class="col-xs-8">
+						<input type="file"  name="file"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<button type="submit" class="btn btn-primary btn-block">Register User</button>
+					</div>
+				</div>
+                <span th:utext="${successMessage}"></span>
+			</form>
+</section>
+</body>
+</html>

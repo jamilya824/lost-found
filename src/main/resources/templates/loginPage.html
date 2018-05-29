@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/ionicons.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/layout-1/css/loginPage.css}" />
+    <link rel="stylesheet" type="text/html" th:href="@{/layout-1/css/responsive.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="box">
+<h2>Sign up or Sign in with</h2>
+
+<a th:href="@{/auth/google}"><img th:src="@{/images/google.png}"  alt="Google"></a>
+<a th:href="@{/register}"><img th:src="@{/images/register.png}"  alt="Register"></a>
+<br />
+
+<!-- /login?error=true -->
+<div th:if="${#request.getParameter('error') == 'true'}"
+     style="color:red;margin:10px 0px;">
+    Login Failed!!!<br />
+    Reason :
+    <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+          th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
+                Static summary
+         </span>
+
+</div>
+
+<h3>Enter user name and password:</h3>
+<form name='f' th:action="@{/j_spring_security_check}" method='POST'>
+    <div class="container">
+        <label><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+
+        <label><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <button type="submit">Login</button>
+        <label>
+            <input type="checkbox" checked="checked" name="remember-me"> Remember me
+        </label>
+    </div>
+
+</form>
+
+
+</div>
+</body>
+
+</html>

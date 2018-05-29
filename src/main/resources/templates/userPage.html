@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Profile</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <!-- Font -->
+    <title>Registration Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/ionicons.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/single-post-2/css/styles.css}" />
+    <link rel="stylesheet" type="text/html" th:href="@{/single-post-2/css/responsive.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body class="body">
+
+<header>
+    <div class="container-fluid position-relative no-side-padding">
+        <a th:href="@{/}" class="logo"><img th:src="@{/images/gmail.png}"  alt="Logo Image"></a>
+
+        <div class="menu-nav-icon" data-nav-menu="#main-menu"><i class="ion-navicon"></i></div>
+        <ul class="main-menu visible-on-click" id="main-menu">
+            <li> <a  th:href="@{/found}">Found</a></li>
+            <li> <a  th:href="@{/lost}">Lost</a></li>
+            <li> <a  th:href="@{/newApplication}">Post ad</a></li>
+            <li> <a  th:if="${#request.userPrincipal!=null}" th:href="@{/userPage(username=${#request.userPrincipal.name})}">Profile</a></li>
+        </ul>
+        <div class="src-area">
+            <form th:action="@{/searchW}" >
+                <button class="src-btn" type="submit"><i class="ion-ios-search-strong"></i></button>
+                <input class="src-input" type="text" placeholder="Type of search" name="word">
+
+            </form>
+        </div>
+        <div class="menu-login">
+            <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
+            <a th:if="${#request.userPrincipal == null}" th:href="@{/login}">Login</a>
+        </div>
+    </div><!-- conatiner -->
+</header>
+
+<div class="slider">
+
+</div><!-- slider -->
+
+<section class="post-area">
+    <div class="container" th:object="${user}">
+
+        <div class="row">
+            <div class="col-lg-1 col-md-0"></div>
+            <div class="col-lg-10 col-md-12">
+                <div class="main-post">
+                    <div class="post-top-area">
+
+                        <div class="info">
+                            <img class="imgTable" th:src="@{${user.urlImage}}"/>
+                            <table class="table">
+                                <tr>
+                                    <td>Username:</td>
+                                    <td><a th:href="@{/userPage(username=${user.userName})}"><h4 class="post-title" th:text="${user.userName}"></h4> </a> </td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name:</td>
+                                    <td><a href="#" th:text="${user.lastName}"></a></td>
+                                </tr>
+                                <tr>
+                                    <td>First Name:</td>
+                                    <td><a href="#" th:text="${user.firstName}"></a></td>
+                                </tr>
+                                <tr>
+                                    <td>Department:</td>
+                                    <td><a href="#" th:text="${user.department}"></a> </td>
+                                </tr>
+                                <tr>
+                                    <td>E-mail:</td>
+                                    <td><p th:text="${user.email}"></p></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div sec:authorize="hasRole('ROLE_USER')" th:if="${#request.userPrincipal!=null}">
+                            <a  th:if="${user.userName==#request.userPrincipal.name}"
+                                class="load-more-btn" th:href="@{/updateUser(id=${user.userId})}"><b>UPDATE</b></a>
+                        </div>
+                        <div class="right-area" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="load-more-btn" th:href="@{/updateUser(id=${user.userId})}"><b>UPDATE USER</b></a><br>
+                            <a class="load-more-btn" th:href="@{/deleteUser(id=${user.userId})}"><b>DELETE USER</b></a>
+                        </div>
+                    </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="recomended-area section">
+    <div class="container" >
+        <div class="row">
+
+            <div class="col-lg-4 col-md-6" th:each="app1:${apps}">
+                <div class="card h-100">
+                    <div class="single-post post-style-1">
+
+                        <div class="blog-image"><img th:if="${app1.getPhoto1()}!=null" th:src="@{${'/image/'+app1.photo1}}" alt="Blog Image"></div>
+
+                        <a class="avatar" href="#"><img th:src="@{${user.urlImage}}"  alt="Profile Image"></a>
+
+                        <div class="blog-info">
+
+                            <h4 class="title"><a th:href="@{/appInfo(id=${app1.apId})}"><b th:text="${app1.title}"></b></a></h4>
+
+                            <ul class="post-footer">
+                                <li><a href="#"><i class="ion-heart"></i>57</a></li>
+                                <li><a href="#" th:text="${' '+app1.comNumber}" class="ion-chatbubble"></a></li>
+                                <li><a href="#" th:text="${' '+app1.view}" class="ion-eye"></a></li>
+                            </ul>
+
+                        </div><!-- blog-info -->
+                    </div><!-- single-post -->
+                </div><!-- card -->
+            </div><!-- col-md-6 col-sm-12 -->
+        </div><!-- row -->
+
+    </div><!-- container -->
+</section>
+
+<section class="comment-section center-text">
+    <div class="container">
+        <h4><b th:if="${#request.userPrincipal != null}">Write post</b></h4>
+        <h4><b th:if="${#request.userPrincipal == null}">To add post, <a th:href="@{/login}">sign in</a></b></h4>
+        <div class="row">
+
+            <div class="col-lg-2 col-md-0"></div>
+
+            <div class="col-lg-8 col-md-12"   >
+                <div class="comment-form" th:if="${#request.userPrincipal != null}">
+                    <form th:action="@{/newPost(username=${user.userName})}" method="post" th:object="${post}">
+                        <div class="row">
+                            <a class="name" href="#"><b th:text="${'Write post as '+#request.userPrincipal.name}"></b></a>
+                            <div class="col-sm-12">
+                                <label th:if="${#fields.hasErrors('postText')}" th:errors="*{postText}" class="validation-message">
+                                </label>
+                                <textarea th:field="*{postText}" id="comments" rows="2" class="text-area-messge form-control"
+                                          placeholder="Enter your comment"></textarea >
+
+                            </div><!-- col-sm-12 -->
+                            <div class="col-sm-12">
+                                <button class="submit-btn" type="submit" id="form-submit"><b>POST</b></button>
+                            </div><!-- col-sm-12 -->
+
+                        </div><!-- row -->
+                    </form>
+                </div><!-- comment-form -->
+
+                <div class="commnets-area text-left" >
+
+                    <div class="comment" th:each="post: ${posts}">
+
+                        <div class="post-info">
+
+                            <div class="left-area">
+                                <a class="avatar" href="#"><img th:src="@{${post.image}}" alt="Profile Image"></a>
+                            </div>
+
+                            <div class="middle-area">
+                                <a class="name" th:href="@{/userPage(username=${post.username})}"><b th:text="${post.username}"></b></a>
+                                <h6 class="date" th:text="${'on '+post.datePost}"></h6>
+                            </div>
+                            <div class="right-area" sec:authorize="hasRole('ROLE_ADMIN')">
+                                <form th:action="@{/deletePost(id=${post.id})}" method="post">
+                                    <input type="hidden" th:value="${post.user}" name="username" >
+                                    <input class="reply-btn"  type="submit" value="DELETE">
+                                </form>
+                            </div>
+
+                        </div><!-- post-info -->
+
+                        <p th:text="${post.postText}"></p>
+
+                    </div>
+                </div>
+
+            </div><!-- col-lg-8 col-md-12 -->
+
+        </div><!-- row -->
+
+    </div><!-- container -->
+</section>
+
+<footer>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+
+                    <a class="logo" th:href="@{/}"><img src="images/gmail.png" alt="Logo Image"></a>
+                    <p class="copyright"> Ala-Too International University @ 2018. All rights reserved.</p>
+                    <p class="copyright">Designed by <a href="https://colorlib.com" target="_blank">Tansuluu&Zhamiila</a></p>
+
+
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+                    <h4 class="title"><b>CATAGORIES</b></h4>
+                    <ul>
+                        <li><a th:href="@{/category(category=electronics)}">Electronics</a></li>
+                        <li><a th:href="@{/category(category=documents)}">Documents</a></li>
+                        <li><a th:href="@{/category(category=keys)}">Keys</a></li>
+
+                    </ul>
+                    <ul>
+                        <li><a th:href="@{/category(category=clothes)}">Clothes</a></li>
+                        <li><a th:href="@{/category(category=others)}">Others</a></li>
+                    </ul>
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+                    <h4 class="title"><b>Join us</b></h4>
+                    <ul class="icons">
+                        <li><a href="#"><i class="ion-social-facebook-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-twitter-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-vimeo-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-pinterest-outline"></i></a></li>
+                    </ul>
+
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+        </div><!-- row -->
+    </div><!-- container -->
+</footer>
+<!-- SCIPTS -->
+
+<script src="common-js/jquery-3.1.1.min.js"></script>
+
+<script src="common-js/tether.min.js"></script>
+
+<script src="common-js/bootstrap.js"></script>
+
+<script src="common-js/scripts.js"></script>
+
+</body>
+</html>

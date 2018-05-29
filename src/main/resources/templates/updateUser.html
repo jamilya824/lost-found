@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Profile</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/ionicons.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" type="text/html" th:href="@{/layout-1/css/responsive.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+</head>
+<body>
+<header>
+    <div class="container-fluid position-relative no-side-padding">
+        <a th:href="@{/}" class="logo"><img th:src="@{/images/gmail.png}"  alt="Logo Image"></a>
+
+        <div class="menu-nav-icon" data-nav-menu="#main-menu"><i class="ion-navicon"></i></div>
+        <ul class="main-menu visible-on-click" id="main-menu">
+            <li> <a  th:href="@{/found}">Found</a></li>
+            <li> <a  th:href="@{/lost}">Lost</a></li>
+            <li> <a  th:href="@{/newApplication}">Post ad</a></li>
+            <li> <a  th:if="${#request.userPrincipal!=null}" th:href="@{/userPage(username=${#request.userPrincipal.name})}">Profile</a></li>
+        </ul>
+        <div class="src-area">
+            <form th:action="@{/searchW}" >
+                <button class="src-btn" type="submit"><i class="ion-ios-search-strong"></i></button>
+                <input class="src-input" type="text" placeholder="Type of search" name="word">
+
+            </form>
+        </div>
+        <div class="menu-login">
+            <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
+            <a th:if="${#request.userPrincipal == null}" th:href="@{/login}">Login</a>
+        </div>
+    </div><!-- conatiner -->
+</header>
+<!-- Include _menu.html -->
+<section class="blog-area section">
+    <form  action="#" th:action="@{/updateUser}" th:object="${user}" method="post" class="form-horizontal"
+           role="form">
+            <h1>Profile</h1>
+            <label class="col-xs-3 control-label"></label>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="hidden" th:field="*{userId}">
+                    <span class="input-group-addon">Username</span>
+                    <input type="text" th:field="*{userName}" placeholder="Username" class="form-control" readonly />
+                    <label	th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"
+                          class="validation-message"></label>
+                </div>
+            </div>
+        <div class="form-group">
+            <div class="col-sm-9">
+                <span class="input-group-addon">E-mail</span>
+                <input type="text" th:field="*{email}"
+                       placeholder="Email" class="form-control"  readonly />
+                <label	th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                          class="validation-message"></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-9">
+                <span class="input-group-addon">First Name</span>
+                <input type="text" th:field="*{firstName}"
+                       placeholder="First name" class="form-control" />
+                <label	th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                          class="validation-message"></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-9">
+                <span class="input-group-addon">Last Name</span>
+                <input type="text" th:field="*{lastName}" placeholder="lastName"
+                       class="form-control" />
+                <label th:if="${#fields.hasErrors('lastName')}"
+                       th:errors="*{lastName}"
+                       class="validation-message"></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-9">
+                <span class="input-group-addon">Department</span>
+                <input type="text" th:field="*{department}"  placeholder="Department"
+                       class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-9">
+                <button type="submit" class="btn btn-primary btn-block">UPDATE USER</button>
+            </div>
+        </div>
+    </form>
+</section>
+<footer>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+
+                    <a class="logo" th:href="@{/}"><img src="images/gmail.png" alt="Logo Image"></a>
+                    <p class="copyright"> Ala-Too International University @ 2018. All rights reserved.</p>
+                    <p class="copyright">Designed by <a href="https://colorlib.com" target="_blank">Tansuluu&Zhamiila</a></p>
+
+
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+                    <h4 class="title"><b>CATAGORIES</b></h4>
+                    <ul>
+                        <li><a th:href="@{/category(category=electronics)}">Electronics</a></li>
+                        <li><a th:href="@{/category(category=documents)}">Documents</a></li>
+                        <li><a th:href="@{/category(category=keys)}">Keys</a></li>
+
+                    </ul>
+                    <ul>
+                        <li><a th:href="@{/category(category=clothes)}">Clothes</a></li>
+                        <li><a th:href="@{/category(category=others)}">Others</a></li>
+                    </ul>
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+                    <h4 class="title"><b>Join us</b></h4>
+                    <ul class="icons">
+                        <li><a href="#"><i class="ion-social-facebook-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-twitter-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-vimeo-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-pinterest-outline"></i></a></li>
+                    </ul>
+
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+        </div><!-- row -->
+    </div><!-- container -->
+</footer>
+</body>
+</html>

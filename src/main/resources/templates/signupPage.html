@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/ionicons.css}" />
+    <link rel="stylesheet" type="text/html" th:href="@{/layout-1/css/responsive.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <style>
+        .error-message {
+            font-size:90%;
+            font-style:italic;
+            color:red;
+        }
+        body{
+            background: linear-gradient(to right, limegreen,lightgreen,whitesmoke,lightgreen,limegreen);
+            background-size: cover;
+
+        }
+        .register{
+            width: 30%;
+            margin-left: 35%;
+            border-radius: 15px;
+            background-color: #EDF3F3;
+            text-align: center;
+            margin-top: 50px;
+        }
+        table{
+            margin-left: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+<div class="register">
+    <h1>Register</h1>
+<h2 style="color:blue;"
+    th:if="${myForm.signInProvider != null}">Signup with <span th:utex="${myForm.signInProvider}"></span></h2>
+<form th:object="${myForm}" th:action="@{/signup(imageUrl=${myForm.getUrlImage()})}" method="POST">
+    <input type="hidden" th:field="*{userId}"  />
+    <input type="hidden" th:field="*{signInProvider}" />
+
+
+    <table border="0">
+
+        <tr>
+            <td></td>
+            <td><img th:src="*{urlImage}"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>User Name</td>
+            <td><input  th:field="*{userName}" /></td>
+            <td>
+                  <span class="error-message"
+                        th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input th:field="*{email}" /></td>
+            <td>
+                  <span class="error-message"
+                        th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>First Name</td>
+            <td><input th:field="*{firstName}" /></td>
+            <td>
+                  <span class="error-message"
+                        th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input th:field="*{lastName}" /></td>
+            <td>
+                  <span class="error-message"
+                        th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Department</td>
+            <td><input th:field="*{department}" /></td>
+            <td>
+                  <span class="error-message"
+                        th:if="${#fields.hasErrors('department')}" th:errors="*{department}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input th:field="*{password}" /></td>
+            <td>
+                  <span class="error-message"
+                        th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button type="submit" value="Submit" />Submit</td>
+            <td></td>
+        </tr>
+    </table>
+    </div>
+
+</form>
+<div class="error-message" th:utext="${errorMessage}"></div>
+
+</body>
+</html>

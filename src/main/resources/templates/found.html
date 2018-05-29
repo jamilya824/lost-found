@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Blog Application - Homepage</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link th:href="@{vendor/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/common-css/ionicons.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/layout-1/css/styles.css}" />
+    <link rel="stylesheet" type="text/html" th:href="@{/layout-1/css/responsive.css}" />
+    <link th:href="@{css/clean-blog.min.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<header>
+
+    <div class="container-fluid position-relative no-side-padding">
+        <a th:href="@{/}" class="logo"><img th:src="@{/images/gmail.png}"  alt="Logo Image"></a>
+
+        <div class="menu-nav-icon" data-nav-menu="#main-menu"><i class="ion-navicon"></i></div>
+        <ul class="main-menu visible-on-click" id="main-menu">
+            <li> <a  th:href="@{/found}">Found</a></li>
+            <li> <a  th:href="@{/lost}">Lost</a></li>
+            <li> <a  th:href="@{/newApplication}">Post ad</a></li>
+            <li> <a  th:if="${#request.userPrincipal!=null}" th:href="@{/userPage(username=${#request.userPrincipal.name})}">Profile</a></li>
+        </ul>
+        <div class="src-area">
+            <form th:action="@{/searchW}" >
+                <button class="src-btn" type="submit"><i class="ion-ios-search-strong"></i></button>
+                <input class="src-input" type="text" placeholder="Type of search" name="word">
+
+            </form>
+        </div>
+        <div class="menu-login">
+            <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
+            <a th:if="${#request.userPrincipal == null}" th:href="@{/login}">Login</a>
+        </div>
+    </div><!-- conatiner -->
+</header>
+
+<!-- Main Content -->
+<div class="container" style="width: 80%">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <blogs >
+                <div class="post-preview">
+                    <table class="table" th:if="${!list.isEmpty()}">
+                        <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Posted by</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="p : ${list}" th:if="${list!=null}">
+                            <td> <img class="imgTable" th:if="${p.getPhoto1()}!=null" th:src="@{${'/image/'+p.photo1}}"/>
+                                <img th:if="${p.getPhoto1()}==null" th:src="@{/images/findit.jpg}"/></td>
+                            <td>
+                                <a th:href="@{/appInfo(id=${p.apId})}"><h4 class="post-title" th:text="${p.title}"></h4></a>
+                            </td>
+                            <td><a href="#" th:text="${p.category}"></a></td>
+                            <td><a href="#" th:text="${p.usarname}"></a></td>
+                            <td><p th:text="${p.date}"></p></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </blogs>
+        </div>
+    </div>
+
+</div>
+<div class="container" style="width: 80%">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <blogs >
+                <div class="post-preview">
+                    <table class="table" th:if="${users!=null}">
+                        <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Username</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Email</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${users}">
+                            <td> <img class="imgTable"  th:src="@{${user.urlImage}}"/>
+
+                            <td>
+                                <a th:href="@{/userPage(username=${user.userName})}"><h4 class="post-title" th:text="${user.userName}"></h4></a>
+                            </td>
+                            <td><a href="#" th:text="${user.lastName}"></a></td>
+                            <td><a href="#" th:text="${user.firstName}"></a></td>
+                            <td><p th:text="${user.email}"></p></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </blogs>
+        </div>
+    </div>
+
+</div>
+<hr>
+
+
+<footer>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+
+                    <a class="logo" th:href="@{/}"><img src="images/gmail.png" alt="Logo Image"></a>
+                    <p class="copyright"> Ala-Too International University @ 2018. All rights reserved.</p>
+                    <p class="copyright">Designed by <a href="https://colorlib.com" target="_blank">Tansuluu&Zhamiila</a></p>
+
+
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+                    <h4 class="title"><b>CATAGORIES</b></h4>
+                    <ul>
+                        <li><a th:href="@{/category(category=electronics)}">Electronics</a></li>
+                        <li><a th:href="@{/category(category=documents)}">Documents</a></li>
+                        <li><a th:href="@{/category(category=keys)}">Keys</a></li>
+
+                    </ul>
+                    <ul>
+                        <li><a th:href="@{/category(category=clothes)}">Clothes</a></li>
+                        <li><a th:href="@{/category(category=others)}">Others</a></li>
+                    </ul>
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-section">
+                    <h4 class="title"><b>Join us</b></h4>
+                    <ul class="icons">
+                        <li><a href="#"><i class="ion-social-facebook-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-twitter-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-vimeo-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-social-pinterest-outline"></i></a></li>
+                    </ul>
+
+                </div><!-- footer-section -->
+            </div><!-- col-lg-4 col-md-6 -->
+
+        </div><!-- row -->
+    </div><!-- container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Custom scripts for this template -->
+<script th:src="@{js/clean-blog.min.js}"></script>
+<script src="common-js/jquery-3.1.1.min.js"></script>
+
+<script src="common-js/tether.min.js"></script>
+
+<script src="common-js/bootstrap.js"></script>
+
+<script src="common-js/scripts.js"></script>
+
+</body>
+
+</html>
